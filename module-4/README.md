@@ -44,20 +44,33 @@ LIMIT 1;
 ### Question 7: Top #Nth longest P90 travel time Location for FHV
 
 ```sql
-WITH ranked_trips AS (
-    SELECT 
-        dropoff_zone,
-        trip_duration_p90,
-        ROW_NUMBER() OVER (
-            PARTITION BY pickup_zone ORDER BY trip_duration_p90 DESC
-        ) AS rank
-    FROM `nytaxi_hw4.fct_fhv_monthly_zone_traveltime_p90`
-    WHERE year = 2019 
-      AND month = 11
-      AND pickup_zone IN ('Newark Airport', 'SoHo', 'Yorkville East')
-)
+SELECT DISTINCT
+pickup_zone,
+dropoff_zone,
+p90
+FROM `focus-heuristic-448107-a5.nytaxi_hw4.fct_fhv_monthly_zone_traveltime_p90`
+WHERE pickup_zone = 'Newark Airport' AND
+fhv_year = 2019 AND
+fhv_month = 11
+ORDER BY p90 DESC;
 
-SELECT dropoff_zone
-FROM ranked_trips
-WHERE rank = 2;
+SELECT DISTINCT
+pickup_zone,
+dropoff_zone,
+p90
+FROM `focus-heuristic-448107-a5.nytaxi_hw4.fct_fhv_monthly_zone_traveltime_p90`
+WHERE pickup_zone = 'SoHo' AND
+fhv_year = 2019 AND
+fhv_month = 11
+ORDER BY p90 DESC;
+
+SELECT DISTINCT
+pickup_zone,
+dropoff_zone,
+p90
+FROM `focus-heuristic-448107-a5.nytaxi_hw4.fct_fhv_monthly_zone_traveltime_p90`
+WHERE pickup_zone = 'Yorkville East' AND
+fhv_year = 2019 AND
+fhv_month = 11
+ORDER BY p90 DESC;
 ```
